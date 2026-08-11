@@ -53,6 +53,7 @@ igor_account.set_balance(3000)
 print(igor_account.get_balance())
 
 igor_account.real_balance = -1000000
-print(igor_account.balance)
-# igor_account.balance = -3500 # ошибка ValueError
+print(igor_account.balance)             # Вызывается геттер который работает через @property
+# igor_account.balance = -3500          # ошибка ValueError из сеттера
+igor_account.balance = 3500             # Вызывается сеттер который помечен через @balance.setter
 print(igor_account.get_balance())
