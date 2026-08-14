@@ -13,7 +13,12 @@ class User:
         User.user_count += 1   # при создании каждого объекта увеличиваем ОБЩИЙ счётчик
 
     def change_password(self, new_password):
-        self.password = new_password
+        if User.validate_password(new_password):
+            # проверка пароля прошла
+            self.password = new_password
+        else:
+            # проверка пароля НЕ прошла
+            raise ValueError("Password is too short")
 
     @classmethod
     def get_user_count(cls):
@@ -30,12 +35,23 @@ class User:
         obj.change_password("qwerty123456")
         return obj
 
+    @staticmethod
+    def validate_password(password):
+        # статический метод: не получает ни self, ни cls.
+        # Работает как обычная функция, просто "живёт" в классе.
+        # if len(password) < 10:
+        #     return False
+        # else:
+        #     return True
+        return len(password) >= 10
+
 print(User.user_count)
 user1 = User("Igor", "996555000000")
 print(user1.name, user1.phone_number)
-user1.change_password("qwerty")
+user1.change_password("qwerty1234")  # ровно 10 символов — минимально допустимый пароль
 print(User.user_count)
 user2 = User("Kurmanbek", "996555000001")
 print(User.get_user_count())
 admin1 = User.create_admin("Arseniy", "996555000002")
 print(admin1.name, admin1.role)
+print(User.validate_password("12345654321"))  # прямая проверка валидации
